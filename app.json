@@ -1,33 +1,27 @@
 {
   "expo": {
-    "name": "licentav1",
     "slug": "licentav1",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+    "name": "licentav1",
+    "sdkVersion": "47.0.0",
+    "extra": {
+      "eas": {
+        "projectId": "93080aec-bfa2-4e00-bc8f-de0137a9c15f"
       }
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+    "android": {
+      "package": "com.tufisstefan.licentav1"
+    },
+    "ios": {
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": [
+          "lyft"
+        ]
+      },
+      "bundleIdentifier": "com.tufisstefan.licentav1"
+    },
+    "plugins": [
+
+    ]
+  },
+  "name": "licentav1"
 }
