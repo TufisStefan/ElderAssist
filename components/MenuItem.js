@@ -10,18 +10,20 @@ const MenuItem = (props) => {
                 padding: 20,
                 alignItems: 'center',
                 borderRadius: 20,
+                borderWidth: 2,
                 marginHorizontal: 20,
                 marginVertical: 10
             }}
             onPress={() => props.navigation.navigate(props.navigateTo)}>
             <MaterialCommunityIcons name={props.iconName} size={50} style={{
-
+                color: props.textFont
             }} />
             <Text
                 style={{
                     textAlign: 'center',
                     fontWeight: '700',
                     fontSize: 30,
+                    color: props.textFont
                 }}>{props.text}</Text>
         </TouchableOpacity>
     )

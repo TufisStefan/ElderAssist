@@ -6,6 +6,7 @@ import {
   DarkTheme
 } from 'react-native-paper';
 import { AuthProvider } from './context/AuthContext';
+import { LocationProvider } from './context/LocationContext';
 import AppNav from './navigation/AppNav';
 
 export default function App() {
@@ -27,9 +28,11 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <PaperProvider theme={theme}>
-        <AppNav />
-      </PaperProvider>
+      <LocationProvider>
+        <PaperProvider theme={theme}>
+          <AppNav />
+        </PaperProvider>
+      </LocationProvider>
     </AuthProvider>
   );
 }

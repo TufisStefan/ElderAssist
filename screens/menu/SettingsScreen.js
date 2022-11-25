@@ -4,20 +4,18 @@ import { Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
 
 
-const SettingsScreen = () => {
+const SettingsScreen = ({ navigation }) => {
 
     const renderItem = ({ item, index }) => {
         return (
-            <TouchableOpacity style={styles.settingsContainer}>
-                <Text style={styles.settingsText}>{item}</Text>
+            <TouchableOpacity style={styles.settingsContainer} onPress={() => { navigation.navigate(item.route) }}>
+                <Text style={styles.settingsText}>{item.title}</Text>
             </TouchableOpacity>
         );
     };
     const keyExtractor = (item, index) => {
         return index.toString();
     };
-
-
 
     return (
         <View style={styles.settingsList}>

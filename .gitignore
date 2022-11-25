@@ -15,14 +15,4 @@ web-build/
 
 *.apk
 *.hprof
-/android/**/build
-/android/**/.cxx
-/android/**/local.properties
-/android/captures
-/android/expoview/libs/ReactAndroid-temp
-/android/versioned-react-native/ReactAndroid
-/android/versioned-react-native/ReactCommon
-/android/versioned-react-native/codegen
-/android/versioned-react-native/sdks
-ReactAndroid-temp.aar
-/android/prebuiltHermes
+/android/
