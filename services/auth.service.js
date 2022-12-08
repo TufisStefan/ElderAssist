@@ -28,11 +28,12 @@ const login = (username, password) => {
 
 const logout = async () => {
     await AsyncStorage.removeItem(TOKEN_KEY);
-    AsyncStorage.getItem(TOKEN_KEY).then((res) => console.log(res));
+    const user = await AsyncStorage.getItem(TOKEN_KEY);
 }
 
 const getCurrentUser = async () => {
-    return (await JSON.parse(AsyncStorage.getItem(TOKEN_KEY)));
+    const user = await AsyncStorage.getItem(TOKEN_KEY);
+    return user;
 }
 
 const AuthService = {

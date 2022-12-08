@@ -1,12 +1,16 @@
 import { Camera, CameraType } from 'expo-camera';
-import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
 export default function CameraScreen() {
+    let cameraRef = useRef();
     const [type, setType] = useState(CameraType.back);
+    const [photo, setPhoto] = useState(undefined);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [zoomValue, setZoomValue] = useState(0.0);
+
+
     if (!permission) {
         return <View />;
     }
@@ -24,8 +28,15 @@ export default function CameraScreen() {
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
 
-    const takePhoto = () => {
-
+    const takePhoto = async () => {
+        let options = {
+            quality: 0,
+            skipProcessing: true,
+            base64: true,
+            exif: false
+        };
+        let newPhoto = await cameraRef.current.takePictureAsync(options);
+        setPhoto(newPhoto);
     }
     const toggleZoom = () => {
         setZoomValue(current => (current === 0.75 ? 0 : current + 0.25))
@@ -34,7 +45,17 @@ export default function CameraScreen() {
 
     return (
         <View style={styles.container}>
-            <Camera style={styles.camera} type={type} zoom={zoomValue} />
+            {photo === undefined
+                ? <Camera
+                    style={styles.camera}
+                    type={type}
+                    zoom={zoomValue}
+                    ref={cameraRef}
+                />
+                : <SafeAreaView style={styles.imageView}>
+                    <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+                </SafeAreaView>
+            }
             <View style={styles.buttonContainer}>
                 <IconButton
                     icon="camera-flip"
@@ -89,5 +110,14 @@ const styles = StyleSheet.create({
         borderColor: '#000',
         borderWidth: 2,
         marginHorizontal: 20
+    },
+    imageView: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    preview: {
+        alignSelf: 'stretch',
+        flex: 1
     }
 });

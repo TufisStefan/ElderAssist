@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
 import AuthService from '../services/auth.service';
 
 const AuthContext = createContext();
@@ -9,7 +8,7 @@ const AuthProvider = ({ children }) => {
     const [userToken, setUserToken] = useState(null);
 
     const login = (username, password) => {
-        setIsLoading(true)
+        setIsLoading(true);
         AuthService.login(username, password).then((response) => {
             setUserToken(response.token);
         });
@@ -19,15 +18,17 @@ const AuthProvider = ({ children }) => {
     const logout = () => {
         setIsLoading(true);
         setUserToken(null);
-        AuthService.logout;
+        AuthService.logout();
         setIsLoading(false);
     }
 
     const isLoggedIn = async () => {
+        const user = await AuthService.getCurrentUser();
+        return user !== null;
     }
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ login, logout, isLoading, userToken, isLoggedIn }}>{children}</AuthContext.Provider>
     );
 }
 

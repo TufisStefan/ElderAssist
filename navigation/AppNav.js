@@ -1,16 +1,22 @@
 import { NavigationContainer } from "@react-navigation/native"
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { AuthContext, AuthProvider } from "../context/AuthContext"
 import AuthNav from "../navigation/AuthNav"
-import UsersTable from "../components/UsersTable"
 import MainMenuNav from "./MainMenuNav"
 
 const AppNav = () => {
-    const { isLoading, userToken } = useContext(AuthContext);
+    const { userToken, isLoggedIn } = useContext(AuthContext);
+    const [loggedIn, setLoggedIn] = useState(false);
+    useEffect(() => {
+        async function awaitData() {
+            setLoggedIn(await isLoggedIn());
+        }
+        awaitData();
+    })
 
     return (
         <NavigationContainer>
-            {userToken !== null ?
+            {(loggedIn) ?
                 <MainMenuNav /> :
                 <AuthNav />
             }
