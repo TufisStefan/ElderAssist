@@ -3,25 +3,7 @@
     "slug": "licentav1",
     "name": "licentav1",
     "sdkVersion": "47.0.0",
-    "extra": {
-      "eas": {
-        "projectId": "93080aec-bfa2-4e00-bc8f-de0137a9c15f"
-      }
-    },
-    "android": {
-      "package": "com.tufisstefan.licentav1"
-    },
-    "ios": {
-      "infoPlist": {
-        "LSApplicationQueriesSchemes": [
-          "lyft"
-        ]
-      },
-      "bundleIdentifier": "com.tufisstefan.licentav1"
-    },
-    "plugins": [
-
-    ]
+    "entryPoint": ".vscode\\exponentIndex.js"
   },
   "name": "licentav1"
 }

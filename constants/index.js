@@ -1,6 +1,8 @@
 //auth.service.js
-export const AUTHURL = "https://127c-2a02-2f04-743-6200-1422-42a7-1a7-5cbf.eu.ngrok.io/api/auth/";
-export const USERURL = "https://127c-2a02-2f04-743-6200-1422-42a7-1a7-5cbf.eu.ngrok.io/api/test/";
+const URL_ROOT = "https://c9a3-2a02-2f04-743-6200-a551-9c8c-2b01-9c79.eu.ngrok.io";
+export const AUTHURL = `${URL_ROOT}/api/auth/`;
+export const USERURL = `${URL_ROOT}/api/test/`;
+export const PRESCRIPTIONURL = `${URL_ROOT}/prescription/`;
 export const TOKEN_KEY = "@user";
 
 //ContactsScreen.js

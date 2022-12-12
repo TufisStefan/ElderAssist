@@ -133,12 +133,12 @@ const MemoryGame = () => {
     }, [currentSelection]);
 
     const restartGame = () => {
-        initializeGame();
+        resetWatch();
+        setTimeout(() => { startWatch(); }, 500);
         setSelectedPairs([]);
         setCurrentSelection([]);
         setGameOver(false);
-        resetWatch();
-        setTimeout(() => { startWatch(); }, 500);
+        initializeGame();
     }
     const resetWatch = () => {
         setIsStopwatchStart(false);
