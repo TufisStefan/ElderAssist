@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Avatar } from 'react-native-paper';
+import { Avatar, IconButton } from 'react-native-paper';
 const ContactListItem = ({ onPressContact, contact }) => {
     return (
         <TouchableOpacity onPress={onPressContact}>
@@ -13,10 +13,18 @@ const ContactListItem = ({ onPressContact, contact }) => {
                     }
                 </View>
                 <View style={styles.contactDat}>
-                    <Text style={styles.name}>
+                    <Text
+                        style={styles.name}
+                        numberOfLines={1}
+                    >
                         {contact.name}
                     </Text>
                 </View>
+                <IconButton
+                    icon='star'
+                    size={50}
+                //onPress={toggleStarred}
+                />
             </View >
         </TouchableOpacity>
     );
@@ -50,6 +58,8 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 28,
+        width: 200,
     },
+
 });
 export default ContactListItem;
