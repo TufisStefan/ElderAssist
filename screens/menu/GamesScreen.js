@@ -12,9 +12,17 @@ const GamesScreen = ({ navigation }) => {
                 text="Memory Game"
                 bgColor="#7600bc"
                 textFont='#fff'
-                iconName="minus-box-multiple"
+                iconName="checkbox-multiple-marked"
                 navigation={navigation}
                 navigateTo="MemoryGame"
+            />
+            <MenuItem
+                text="Wordle"
+                bgColor="#7600bc"
+                textFont='#fff'
+                iconName="file-word-box"
+                navigation={navigation}
+                navigateTo="Wordle"
             />
         </View>
     )

@@ -1,6 +1,8 @@
 //auth.service.js
-export const AUTHURL = "https://127c-2a02-2f04-743-6200-1422-42a7-1a7-5cbf.eu.ngrok.io/api/auth/";
-export const USERURL = "https://127c-2a02-2f04-743-6200-1422-42a7-1a7-5cbf.eu.ngrok.io/api/test/";
+const URL_ROOT = "https://bc0f-2a02-2f04-743-6200-1819-34f3-699f-1dbe.eu.ngrok.io";
+export const AUTHURL = `${URL_ROOT}/api/auth/`;
+export const USERURL = `${URL_ROOT}/api/test/`;
+export const PRESCRIPTIONURL = `${URL_ROOT}/prescription/`;
 export const TOKEN_KEY = "@user";
 
 //ContactsScreen.js
@@ -26,10 +28,25 @@ export const EMERGENCY_SETTINGS = [
 
 export const MAPS_URL = "http://www.google.com/maps/place/";
 
+//Wordle.js
+export const KEYBOARD_ROW_1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
+export const KEYBOARD_ROW_2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
+export const KEYBOARD_ROW_3 = ["Z", "X", "C", "V", "B", "N", "M", "⌫"];
+
+
+export const DEFAULT_GUESS = {
+    0: "",
+    1: "",
+    2: "",
+    3: "",
+    4: "",
+    5: "",
+}
+
+//MemoryGame.js
 export const MEMORY_CARDS = [
 
     {
-
         index: 1,
         name: 'rabbit',
         image: require('../assets/memory-game/002-rabbit.png'),

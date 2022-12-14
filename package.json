@@ -28,7 +28,8 @@
     "react-native-paper": "^5.0.0-rc.10",
     "react-native-stopwatch-timer": "^0.0.21",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.9"
+    "react-native-web": "~0.18.9",
+    "expo-file-system": "~15.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
