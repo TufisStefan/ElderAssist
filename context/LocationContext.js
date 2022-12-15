@@ -8,9 +8,6 @@ const LocationProvider = ({ children }) => {
     const [isLocationOn, setIsLocationOn] = useState(false);
     const [status, requestPermission] = Location.useForegroundPermissions();
 
-
-
-
     const onToggleLocation = async () => {
         setIsLocationOn(!isLocationOn);
         console.log(isLocationOn);

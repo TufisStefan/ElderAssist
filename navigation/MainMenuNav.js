@@ -6,8 +6,8 @@ import ContactDetails from '../components/ContactDetails';
 import CameraScreen from '../screens/menu/CameraScreen';
 import SettingsNav from './SettingsNav';
 import AccountScreen from '../screens/menu/AccountScreen';
-import GamesScreen from '../screens/menu/GamesScreen';
 import GamesNav from './GamesNav';
+import PrescriptionScreen from '../screens/menu/PrescriptionScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +25,7 @@ const MainMenuNav = () => {
             <Stack.Screen name="SettingsNav" component={SettingsNav} options={{ headerShown: false }} />
             <Stack.Screen name="Account" component={AccountScreen} />
             <Stack.Screen name="GamesNav" component={GamesNav} options={{ headerShown: false }} />
+            <Stack.Screen name="Medication" component={PrescriptionScreen} />
         </Stack.Navigator>
     );
 };

@@ -8,23 +8,12 @@ import {
 import { AuthProvider } from './context/AuthContext';
 import { LocationProvider } from './context/LocationContext';
 import AppNav from './navigation/AppNav';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 export default function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [theme, setTheme] = React.useState(DefaultTheme);
 
-  // useEffect(() => {
-  //   setTheme({
-  //     ...theme,
-  //     colors: {
-  //       ...theme.colors,
-  //       primary: '#00ff00',
-  //       accent: '#ff0000'
-  //     }
-  //   })
-  // }, []);
-
+  ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
 
   return (
     <AuthProvider>
