@@ -85,7 +85,7 @@ const MainMenu = ({ navigation }) => {
             <View>
                 <MenuItem text='Camera' iconName='camera' bgColor='#29c5f6' navigateTo='Camera' navigation={navigation} />
                 <MenuItem text='Contacts' iconName='contacts' bgColor='#ffe338' navigateTo='Contacts' navigation={navigation} />
-                <MenuItem text='Medication' iconName='pill' bgColor='#a4de02' navigateTo='Camera' navigation={navigation} />
+                <MenuItem text='Medication' iconName='pill' bgColor='#a4de02' navigateTo='Medication' navigation={navigation} />
                 <MenuItem text='Games' iconName='gamepad-variant' bgColor='#c175ff' navigateTo='GamesNav' navigation={navigation} />
             </View>
         </View>

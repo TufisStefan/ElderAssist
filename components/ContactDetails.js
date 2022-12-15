@@ -11,7 +11,6 @@ const ContactDetails = ({ route, navigation }) => {
     const [contact, setContact] = useState(null);
 
     const handlePhoneCall = () => {
-        console.log('call ' + contact.phoneNumbers[0].number);
         let phoneNumber = contact.phoneNumbers[0].number;
         phoneNumber = `tel:${phoneNumber}`;
         Linking.canOpenURL(phoneNumber).then(
