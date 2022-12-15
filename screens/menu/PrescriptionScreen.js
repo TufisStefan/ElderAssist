@@ -1,11 +1,9 @@
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SQLite from 'expo-sqlite';
 import { useContext, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Text } from 'react-native-paper';
 import { AuthContext } from '../../context/AuthContext';
 import PrescriptionService from '../../services/prescription.service';
+import PrescriptionItem from '../../components/PrescriptionItem';
 
 const db = SQLite.openDatabase('db.prescriptionDb');
 const PrescriptionScreen = () => {
@@ -41,6 +39,8 @@ const PrescriptionScreen = () => {
                     PRIMARY KEY (Item_id, time_of_day_id) \
                     )'
             );
+            // tx.executeSql("DELETE FROM times_of_day");
+            // tx.executeSql('INSERT INTO times_of_day (name) VALUES (?), (?), (?)', ["MORNING", "NOON", "EVENING"]);
         })
         fetchData();
     }, []);
@@ -50,7 +50,6 @@ const PrescriptionScreen = () => {
             console.log(response.data);
             response.data.prescriptionItems.forEach(item => {
                 db.transaction((tx) => {
-                    let itemId = null;
                     tx.executeSql("DELETE FROM items_times_of_day");
                     tx.executeSql("DELETE FROM prescription_items");
                     tx.executeSql('INSERT INTO prescription_items \
@@ -84,64 +83,41 @@ const PrescriptionScreen = () => {
             db.transaction((tx) => {
                 // tx.executeSql('SELECT * FROM items_times_of_day', null,
                 //     (_, { rows: { _array } }) => console.log(_array));
-                tx.executeSql('SELECT * FROM times_of_day', null,
-                    (_, { rows: { _array } }) => console.log(_array));
-                tx.executeSql(
-                    "SELECT * FROM prescription_items",
-                    null,
-                    async (_, { rows: { _array } }) => {
-                        await _array.forEach(async (item) => {
-                            await tx.executeSql('SELECT times_of_day.name \
-                            FROM items_times_of_day \
-                            LEFT JOIN times_of_day ON items_times_of_day.time_of_day_id = times_of_day.id \
-                            WHERE items_times_of_day.item_id = ?', [item.id],
-                                (_, { rows: { _array } }) => {
-                                    console.log(item);
-                                    item.timesOfDay = _array;
-                                    console.log(item.timesOfDay);
+                // tx.executeSql('SELECT * FROM times_of_day', null,
+                //     (_, { rows: { _array } }) => console.log(_array));
 
-                                });
-                        });
+                tx.executeSql('SELECT \
+                    prescription_items.medicament, \
+                    prescription_items.quantity, \
+                    prescription_items.intake_interval, \
+                    prescription_items.available_until, \
+                    items_times_of_day.time_of_day_id, \
+                     times_of_day.name \
+                     FROM prescription_items\
+                     INNER JOIN items_times_of_day ON items_times_of_day.item_id = prescription_items.id \
+                     INNER JOIN times_of_day ON items_times_of_day.time_of_day_id = times_of_day.id \
+                     ', null,
+                    (_, { rows: { _array } }) => {
                         console.log(_array);
-                        AsyncStorage.setItem('@prescription', JSON.stringify(_array));
                         setData(_array);
                     },
-                    (_, error) => console.log(error)
-                );
+                    (_, error) => console.log("eroare: " + error));
             });
         });
 
     }
 
-
-    const getData = async () => {
-        try {
-            const jsonValue = await AsyncStorage.getItem('@prescription')
-            return jsonValue != null ? JSON.parse(jsonValue) : null;
-        } catch (e) {
-            // error reading value
-        }
-    }
-
     return (
         <View>
-            <Text>
-                PrescriptionScreen
-            </Text>
             {
-                data && data.map((item) => {
-                    getData().then(response => console.log(response));
-                    console.log(item);
-                    console.log(item.timesOfDay);
-                    return (
-                        <View key={item.id}>
-                            <Text>{item.medicament}</Text>
-                            <Text>{item.quantity}</Text>
-                            <Text>{item.intake_interval}</Text>
-                            <Text>{item.available_until}</Text>
-                        </View>
-                    )
-                })
+                data && data
+                    .sort((a, b) => a.time_of_day_id - b.time_of_day_id)
+                    .map((item, index) => {
+                        console.log(item);
+                        return (
+                            <PrescriptionItem item={item} key={index} />
+                        )
+                    })
             }
         </View>
     )
