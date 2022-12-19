@@ -2,13 +2,17 @@
 import { StyleSheet, TouchableOpacity, FlatList, View } from "react-native";
 import { EMERGENCY_SETTINGS } from "../../constants";
 import { Text, Switch } from 'react-native-paper';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ContactModal from "../../components/ContactModal";
 import { LocationContext } from "../../context/LocationContext";
 import MessageModal from "../../components/MessageModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const EmergencySettings = () => {
     const [contactVisible, setContactVisible] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
+
+    const [contactInfo, setContactInfo] = useState("Not set.");
+    const [messageInfo, setMessageInfo] = useState("Not set.");
 
     const showContactModal = () => setContactVisible(true);
     const hideContactModal = () => setContactVisible(false);
@@ -18,27 +22,50 @@ const EmergencySettings = () => {
 
     const { isLocationOn, onToggleLocation } = useContext(LocationContext);
 
+    useEffect(() => {
+        AsyncStorage.getItem("@emergency_no")
+            .then((value) => {
+                if (value !== null) {
+                    setContactInfo(value);
+                }
+            });
+        AsyncStorage.getItem("@emergency_msg")
+            .then((value) => {
+                if (value !== null) {
+                    setMessageInfo(value);
+                }
+            })
+    });
 
     const renderItem = ({ item, index }) => {
 
         return (
-            <TouchableOpacity
-                style={styles.settingsContainer}
-                onPress={() => {
-                    if (item.type === 'contact') return showContactModal();
-                    if (item.type === 'message') return showMessageModal();
-                    return undefined;
-                }}
-            >
-                <Text style={styles.settingsText}>{item.title}</Text>
-                {item.hasModal === false &&
-                    <Switch
-                        value={isLocationOn}
-                        onValueChange={onToggleLocation}
-                        style={{ marginLeft: 60 }}
-                    />
+            <View>
+                <TouchableOpacity
+                    style={styles.settingsContainer}
+                    onPress={() => {
+                        if (item.type === 'contact') return showContactModal();
+                        if (item.type === 'message') return showMessageModal();
+                        return undefined;
+                    }}
+                >
+                    <Text style={styles.settingsText}>{item.title}</Text>
+                    {item.hasModal === false &&
+                        <Switch
+                            value={isLocationOn}
+                            onValueChange={onToggleLocation}
+                            style={{ marginLeft: 60 }}
+                        />
+                    }
+                </TouchableOpacity>
+                {item.hasModal === true &&
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.settingsText}>
+                            Current: {item.storageKey === "@emergency_no" ? contactInfo : messageInfo}
+                        </Text>
+                    </View>
                 }
-            </TouchableOpacity>
+            </View>
         );
     };
     const keyExtractor = (item, index) => {
@@ -73,7 +100,17 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 10
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
+    },
+    infoContainer: {
+        padding: 20,
+        marginHorizontal: 10,
+        backgroundColor: "#e5e5e5",
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20
     },
     settingsList: {
         marginTop: 20

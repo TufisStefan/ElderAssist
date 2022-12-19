@@ -1,5 +1,5 @@
 //auth.service.js
-const URL_ROOT = "https://6d60-2a02-2f04-743-6200-405b-8008-f9ae-d7ce.eu.ngrok.io";
+const URL_ROOT = "https://449b-2a02-2f04-743-6200-d160-1b2f-1069-24c7.eu.ngrok.io";
 export const AUTHURL = `${URL_ROOT}/api/auth/`;
 export const USERURL = `${URL_ROOT}/api/test/`;
 export const PRESCRIPTIONURL = `${URL_ROOT}/prescription/`;
@@ -20,8 +20,8 @@ export const SETTINGS = [
 
 //EmergencySettings.js
 export const EMERGENCY_SETTINGS = [
-    { title: "Set up emergency contact", hasModal: true, type: 'contact' },
-    { title: "Change emergency message", hasModal: true, type: 'message' },
+    { title: "Set up emergency contact", hasModal: true, type: 'contact', storageKey: '@emergency_no' },
+    { title: "Change emergency message", hasModal: true, type: 'message', storageKey: '@emergency_msg' },
     { title: "Allow location send", hasModal: false }
 ]
 

@@ -1,7 +1,7 @@
 {
   "expo": {
     "slug": "licentav1",
-    "name": "licentav1",
+    "name": "ElderAssist",
     "sdkVersion": "47.0.0",
     "extra": {
       "eas": {
@@ -9,19 +9,22 @@
       }
     },
     "android": {
-      "package": "com.tufisstefan.licentav1"
+      "package": "com.tufisstefan.ElderAssist",
+      "useNextNotificationsApi" : true,
+      "permissions": ["NOTIFICATIONS"]
     },
+
     "ios": {
       "infoPlist": {
         "LSApplicationQueriesSchemes": [
           "lyft"
         ]
       },
-      "bundleIdentifier": "com.tufisstefan.licentav1"
+      "bundleIdentifier": "com.tufisstefan.ElderAssist"
     },
     "plugins": [
 
     ]
   },
-  "name": "licentav1"
+  "name": "ElderAssist"
 }
