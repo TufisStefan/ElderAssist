@@ -1,5 +1,5 @@
 //auth.service.js
-const URL_ROOT = "https://449b-2a02-2f04-743-6200-d160-1b2f-1069-24c7.eu.ngrok.io";
+const URL_ROOT = "https://f541-2a02-2f04-72a-1200-2dc1-1480-6751-c397.eu.ngrok.io";
 export const AUTHURL = `${URL_ROOT}/api/auth/`;
 export const USERURL = `${URL_ROOT}/api/test/`;
 export const PRESCRIPTIONURL = `${URL_ROOT}/prescription/`;

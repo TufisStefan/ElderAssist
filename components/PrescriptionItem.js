@@ -19,15 +19,15 @@ const PrescriptionItem = ({ item }) => {
                 data: { data: 'goes here' },
             },
             trigger: {
-                hour: 10,
-                minute: 24,
+                hour: 14,
+                minute: 0,
                 repeats: true
             },
         });
     }
 
     useEffect(() => {
-        Notifications.cancelAllScheduledNotificationsAsync().then(console.log("Done"));
+        Notifications.cancelAllScheduledNotificationsAsync();
         triggerNotification();
     })
 

@@ -1,9 +1,5 @@
 import React, { useContext, useState } from "react"
 import { AuthContext } from "../../context/AuthContext"
-
-import AntIcons from 'react-native-vector-icons/AntDesign';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import InputField from "../../components/InputField";
 import CustomButton from "../../components/CustomButton";
 
 import {
@@ -11,6 +7,7 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
+import { TextInput } from "react-native-paper";
 
 
 const LoginScreen = ({ navigation }) => {
@@ -30,7 +27,6 @@ const LoginScreen = ({ navigation }) => {
 
             <Text
                 style={{
-                    fontFamily: 'Roboto',
                     fontSize: 32,
                     fontWeight: '500',
                     color: '#333',
@@ -39,36 +35,21 @@ const LoginScreen = ({ navigation }) => {
                 }}>
                 Login
             </Text>
-
-            <InputField
+            <TextInput
                 label={'Username'}
-                icon={
-                    <AntIcons
-                        name="user"
-                        size={20}
-                        color="#666"
-                        style={{ marginRight: 5 }}
-                    />
-                }
+                style={{ fontSize: 20, marginBottom: 10 }}
                 keyboardType="default"
                 value={username}
+                left={<TextInput.Icon icon="account" size={35} />}
                 onChangeText={text => setUsername(text)}
             />
-
-            <InputField
+            <TextInput
                 label={'Password'}
-                icon={
-                    <Ionicons
-                        name="ios-lock-closed-outline"
-                        size={20}
-                        color="#666"
-                        style={{ marginRight: 5 }}
-                    />
-                }
+                style={{ fontSize: 20, marginBottom: 20 }}
+                left={<TextInput.Icon icon="lock" size={35} />}
                 inputType="password"
-                fieldButtonLabel={"Forgot?"}
-                fieldButtonFunction={() => { }}
                 value={password}
+                secureTextEntry={true}
                 onChangeText={text => { setPassword(text) }}
             />
 
@@ -80,12 +61,12 @@ const LoginScreen = ({ navigation }) => {
                     justifyContent: 'center',
                     marginBottom: 30,
                 }}>
-                <Text>New to the app?</Text>
+                <Text style={{ fontSize: 20 }}>New to the app?</Text>
                 <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-                    <Text style={{ color: '#AD40AF', fontWeight: '700' }}> Register</Text>
+                    <Text style={{ color: '#AD40AF', fontWeight: '700', fontSize: 20 }}> Register</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     );
 }
 

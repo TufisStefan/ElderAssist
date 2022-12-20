@@ -69,9 +69,12 @@ const MainMenu = ({ navigation }) => {
                                 Emergency
                             </Text>
                         </View>
-                        : <Text style={styles.emergencyText}>
-                            Press Again!
-                        </Text>}
+                        :
+                        <View style={styles.emergencyView}>
+                            <Text style={styles.emergencyText}>
+                                Press Again!
+                            </Text>
+                        </View>}
 
                 </TouchableOpacity>
                 <IconButton
@@ -112,13 +115,15 @@ const styles = StyleSheet.create({
     },
     emergencyText: {
         fontSize: 24,
-        color: "#fff"
+        color: "#fff",
+        fontWeight: 'bold'
     },
     emergencyView: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        width: 180,
+        height: 55,
     }
 });
 

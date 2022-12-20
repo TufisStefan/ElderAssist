@@ -7,11 +7,9 @@ import {
     TouchableOpacity,
 } from 'react-native';
 
-import InputField from '../../components/InputField';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import AuthService from '../../services/auth.service';
 import CustomButton from '../../components/CustomButton';
+import { TextInput } from 'react-native-paper';
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -47,8 +45,7 @@ const RegisterScreen = ({ navigation }) => {
 
                 <Text
                     style={{
-                        fontFamily: 'Roboto',
-                        fontSize: 28,
+                        fontSize: 32,
                         fontWeight: '500',
                         color: '#333',
                         marginBottom: 30,
@@ -57,47 +54,30 @@ const RegisterScreen = ({ navigation }) => {
                     Register
                 </Text>
 
-                <InputField
+                <TextInput
                     label={'Username'}
-                    icon={
-                        <Ionicons
-                            name="person-outline"
-                            size={20}
-                            color="#666"
-                            style={{ marginRight: 5 }}
-                        />
-                    }
                     value={username}
+                    style={{ fontSize: 20, marginBottom: 10 }}
+                    left={<TextInput.Icon icon="account" size={35} />}
                     onChangeText={text => setUsername(text)}
                 />
 
-                <InputField
+                <TextInput
                     label={'Email'}
-                    icon={
-                        <MaterialIcons
-                            name="alternate-email"
-                            size={20}
-                            color="#666"
-                            style={{ marginRight: 5 }}
-                        />
-                    }
                     keyboardType="email-address"
                     value={email}
+                    style={{ fontSize: 20, marginBottom: 10 }}
+                    left={<TextInput.Icon icon="at" size={35} />}
                     onChangeText={text => setEmail(text)}
                 />
 
-                <InputField
+                <TextInput
                     label={'Password'}
-                    icon={
-                        <Ionicons
-                            name="ios-lock-closed-outline"
-                            size={20}
-                            color="#666"
-                            style={{ marginRight: 5 }}
-                        />
-                    }
                     inputType="password"
                     value={password}
+                    secureTextEntry={true}
+                    style={{ fontSize: 20, marginBottom: 20 }}
+                    left={<TextInput.Icon icon="lock" size={35} color="#000" />}
                     onChangeText={text => setPassword(text)}
                 />
 
@@ -109,9 +89,9 @@ const RegisterScreen = ({ navigation }) => {
                         justifyContent: 'center',
                         marginBottom: 30,
                     }}>
-                    <Text>Already registered?</Text>
+                    <Text style={{ fontSize: 20 }}>Already registered?</Text>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <Text style={{ color: '#AD40AF', fontWeight: '700' }}> Login</Text>
+                        <Text style={{ color: '#AD40AF', fontWeight: '700', fontSize: 20 }}> Login</Text>
                     </TouchableOpacity>
                 </View>
             </View>

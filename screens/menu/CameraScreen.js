@@ -18,7 +18,7 @@ export default function CameraScreen() {
     if (!permission.granted) {
         return (
             <View style={styles.container}>
-                <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+                <Text style={{ textAlign: 'center', fontSize: 20 }}>We need your permission to access the camera</Text>
                 <Button onPress={requestPermission} title="grant permission" />
             </View>
         );
