@@ -10,7 +10,6 @@ const LocationProvider = ({ children }) => {
 
     const onToggleLocation = async () => {
         setIsLocationOn(!isLocationOn);
-        console.log(isLocationOn);
         if (!isLocationOn === true) {
             await requestPermission();
 
