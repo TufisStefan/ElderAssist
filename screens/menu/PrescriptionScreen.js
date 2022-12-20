@@ -1,18 +1,15 @@
 import * as SQLite from 'expo-sqlite';
 import { useContext, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { AuthContext } from '../../context/AuthContext';
 import PrescriptionService from '../../services/prescription.service';
 import PrescriptionItem from '../../components/PrescriptionItem';
 import * as Network from 'expo-network';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const db = SQLite.openDatabase('db.prescriptionDb');
 const PrescriptionScreen = () => {
     const [data, setData] = useState(null);
-    const { username } = useContext(AuthContext);
-
     useEffect(() => {
-
         db.transaction(tx => {
             tx.executeSql(
                 'CREATE TABLE IF NOT EXISTS prescription_items ( \
@@ -50,41 +47,42 @@ const PrescriptionScreen = () => {
     const fetchData = async () => {
         const networkStatus = await Network.getNetworkStateAsync();
         if (networkStatus.isInternetReachable) {
-            PrescriptionService.getPrescription(username).then(response => {
-                console.log(response.data);
-                response.data.prescriptionItems.forEach(item => {
-                    db.transaction((tx) => {
-                        tx.executeSql("DELETE FROM items_times_of_day");
-                        tx.executeSql("DELETE FROM prescription_items");
-                        tx.executeSql('INSERT INTO prescription_items \
+            AsyncStorage.getItem("@username").then(
+                (username) => PrescriptionService.getPrescription(username).then(response => {
+                    response.data.prescriptionItems.forEach(item => {
+                        db.transaction((tx) => {
+                            tx.executeSql("DELETE FROM items_times_of_day");
+                            tx.executeSql("DELETE FROM prescription_items");
+                            tx.executeSql('INSERT INTO prescription_items \
                     (medicament, quantity, intake_interval, available_until) \
                     values (?, ?, ?, ?)',
-                            [item.medicament.name, item.quantity, item.daysBetweenAdministrations, item.administrationEndDate
-                            ],
-                            (_, resultSet) => {
-                                item.id = resultSet.insertId;
-                                item.timesOfDay.forEach(time => {
-                                    switch (time.name) {
-                                        case "MORNING":
-                                            tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
+                                [item.medicament.name, item.quantity, item.daysBetweenAdministrations, item.administrationEndDate
+                                ],
+                                (_, resultSet) => {
+                                    item.id = resultSet.insertId;
+                                    item.timesOfDay.forEach(time => {
+                                        switch (time.name) {
+                                            case "MORNING":
+                                                tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
                                         values (?, ?)", [resultSet.insertId, 1]);
-                                            break;
-                                        case "NOON":
-                                            tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
+                                                break;
+                                            case "NOON":
+                                                tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
                                         values (?, ?)", [resultSet.insertId, 2]);
-                                            break;
-                                        case "EVENING":
-                                            tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
+                                                break;
+                                            case "EVENING":
+                                                tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
                                         values (?, ?)", [resultSet.insertId, 3]);
-                                            break;
-                                    }
-                                })
-                            },
-                            (_, error) => console.log(error));
+                                                break;
+                                        }
+                                    })
+                                },
+                                (_, error) => console.log(error));
 
-                    })
-                });
-            });
+                        })
+                    });
+                })
+            );
         }
         db.transaction((tx) => {
             // tx.executeSql('SELECT * FROM items_times_of_day', null,
@@ -104,7 +102,6 @@ const PrescriptionScreen = () => {
                      INNER JOIN times_of_day ON items_times_of_day.time_of_day_id = times_of_day.id \
                      ', null,
                 (_, { rows: { _array } }) => {
-                    console.log(_array);
                     setData(_array);
                 },
                 (_, error) => console.log("eroare: " + error));
@@ -118,7 +115,6 @@ const PrescriptionScreen = () => {
                 data && data
                     .sort((a, b) => a.time_of_day_id - b.time_of_day_id)
                     .map((item, index) => {
-                        console.log(item);
                         return (
                             <PrescriptionItem item={item} key={index} />
                         )
