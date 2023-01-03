@@ -12,7 +12,6 @@ const LocationProvider = ({ children }) => {
     useEffect(() => {
         AsyncStorage.getItem("@locationOn").then((value) => {
             if (value !== null) {
-                console.log(value);
                 setIsLocationOn(JSON.parse(value));
             }
         })

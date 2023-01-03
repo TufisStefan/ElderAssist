@@ -1,14 +1,19 @@
-import { Camera, CameraType } from 'expo-camera';
+import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { useEffect, useRef, useState } from 'react';
 import { Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
+import CustomSwitch from '../../components/CustomSwitch';
+import * as MediaLibrary from 'expo-media-library';
 
 export default function CameraScreen() {
     let cameraRef = useRef();
     const [type, setType] = useState(CameraType.back);
+    const [flashMode, setFlashMode] = useState(FlashMode.auto);
     const [photo, setPhoto] = useState(undefined);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [zoomValue, setZoomValue] = useState(0.0);
+    const [selectedMode, setSelectedMode] = useState(1);
+    const [permissionResponse, requestMediaPermission] = MediaLibrary.usePermissions();
 
 
     if (!permission) {
@@ -28,6 +33,24 @@ export default function CameraScreen() {
         setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
     }
 
+
+    const updateToggledMode = (val) => {
+        setSelectedMode(val);
+    };
+
+    const handlePressTakePhoto = async () => {
+        if (photo === undefined) {
+            await takePhoto();
+        }
+        else {
+            removePhoto();
+        }
+    }
+
+    const removePhoto = () => {
+        setPhoto(undefined);
+    }
+
     const takePhoto = async () => {
         let options = {
             quality: 0,
@@ -42,48 +65,88 @@ export default function CameraScreen() {
         setZoomValue(current => (current === 0.75 ? 0 : current + 0.25))
     }
 
+    const toggleTorch = () => {
+        setFlashMode(current => (current === FlashMode.auto ? FlashMode.torch : FlashMode.auto));
+    }
+
 
     return (
         <View style={styles.container}>
+            <CustomSwitch
+                selectionMode={selectedMode}
+                option1={'Camera'}
+                option2={'Magnifier'}
+                updateToggledMode={updateToggledMode}
+                selectionColor={'#026190'}
+            />
             {photo === undefined
                 ? <Camera
                     style={styles.camera}
                     type={type}
                     zoom={zoomValue}
                     ref={cameraRef}
+                    flashMode={flashMode}
                 />
                 : <SafeAreaView style={styles.imageView}>
                     <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
                 </SafeAreaView>
             }
             <View style={styles.buttonContainer}>
+                {selectedMode === 1 &&
+                    <IconButton
+                        icon="camera-flip"
+                        size={70}
+                        mode='outlined'
+                        iconColor='#000'
+                        containerColor='#039be5'
+                        onPress={toggleCameraType}
+                        style={styles.button}
+                    />
+                }
+                {selectedMode === 2 &&
+                    <IconButton
+                        icon="magnify"
+                        size={70}
+                        mode='outlined'
+                        iconColor='#000'
+                        containerColor='#039be5'
+                        onPress={toggleZoom}
+                        style={styles.button}
+                    />
+                }
                 <IconButton
-                    icon="camera-flip"
+                    icon={photo === undefined ? "camera" : "camera-off"}
                     size={70}
                     mode='outlined'
                     iconColor='#000'
                     containerColor='#039be5'
-                    onPress={toggleCameraType}
+                    onPress={handlePressTakePhoto}
                     style={styles.button}
                 />
-                <IconButton
-                    icon="camera"
-                    size={70}
-                    mode='outlined'
-                    iconColor='#000'
-                    containerColor='#039be5'
-                    onPress={takePhoto}
-                    style={styles.button}
-                />
-                <IconButton
-                    icon="magnify"
-                    size={70}
-                    mode='outlined'
-                    iconColor='#000'
-                    containerColor='#039be5'
-                    onPress={toggleZoom}
-                    style={styles.button}
-                />
+
+                {selectedMode === 1 &&
+                    <IconButton
+                        icon="image"
+                        size={70}
+                        mode='outlined'
+                        iconColor='#000'
+                        containerColor='#039be5'
+                        onPress={() => { }}
+                        style={styles.button}
+                    />
+                }
+
+                {selectedMode === 2 &&
+                    <IconButton
+                        icon={flashMode === FlashMode.auto ? "flashlight" : "flashlight-off"}
+                        size={70}
+                        mode='outlined'
+                        iconColor='#000'
+                        containerColor='#039be5'
+                        onPress={toggleTorch}
+                        style={styles.button}
+                    />
+                }
             </View>
         </View>
     );
@@ -97,7 +160,7 @@ const styles = StyleSheet.create({
     },
     camera: {
         flex: 1,
-        marginTop: 50
+        marginTop: 10
     },
     buttonContainer: {
         height: 150,
