@@ -4,6 +4,7 @@ import { Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-nativ
 import { IconButton } from 'react-native-paper';
 import CustomSwitch from '../../components/CustomSwitch';
 import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function CameraScreen() {
     let cameraRef = useRef();
@@ -13,7 +14,6 @@ export default function CameraScreen() {
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [zoomValue, setZoomValue] = useState(0.0);
     const [selectedMode, setSelectedMode] = useState(1);
-    const [permissionResponse, requestMediaPermission] = MediaLibrary.usePermissions();
 
 
     if (!permission) {
@@ -59,11 +59,22 @@ export default function CameraScreen() {
             exif: false
         };
         let newPhoto = await cameraRef.current.takePictureAsync(options);
+        console.log(newPhoto);
         setPhoto(newPhoto);
     }
     const toggleZoom = () => {
         setZoomValue(current => (current === 0.75 ? 0 : current + 0.25))
     }
+
+
+    const savePhoto = async () => {
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status === 'granted') {
+            await MediaLibrary.saveToLibraryAsync(photo.uri);
+            setPhoto(undefined);
+        }
+    }
+
 
     const toggleTorch = () => {
         setFlashMode(current => (current === FlashMode.auto ? FlashMode.torch : FlashMode.auto));
@@ -89,6 +100,7 @@ export default function CameraScreen() {
                 />
                 : <SafeAreaView style={styles.imageView}>
                     <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+                    <Button title='Save' onPress={savePhoto} />
                 </SafeAreaView>
             }
             <View style={styles.buttonContainer}>
