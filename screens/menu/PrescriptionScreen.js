@@ -47,7 +47,7 @@ const PrescriptionScreen = () => {
     const fetchData = async () => {
         const networkStatus = await Network.getNetworkStateAsync();
         if (networkStatus.isInternetReachable) {
-            AsyncStorage.getItem("@username").then(
+            await AsyncStorage.getItem("@username").then(
                 (username) => PrescriptionService.getPrescription(username).then(response => {
                     response.data.prescriptionItems.forEach(item => {
                         db.transaction((tx) => {

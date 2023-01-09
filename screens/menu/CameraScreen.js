@@ -13,7 +13,6 @@ export default function CameraScreen() {
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [zoomValue, setZoomValue] = useState(0.0);
     const [selectedMode, setSelectedMode] = useState(1);
-    const [permissionResponse, requestMediaPermission] = MediaLibrary.usePermissions();
 
 
     if (!permission) {
@@ -59,11 +58,27 @@ export default function CameraScreen() {
             exif: false
         };
         let newPhoto = await cameraRef.current.takePictureAsync(options);
+        console.log(newPhoto);
         setPhoto(newPhoto);
     }
     const toggleZoom = () => {
         setZoomValue(current => (current === 0.75 ? 0 : current + 0.25))
     }
+
+
+    const savePhoto = async () => {
+        const { status } = await MediaLibrary.requestPermissionsAsync();
+        if (status === 'granted') {
+            await MediaLibrary.saveToLibraryAsync(photo.uri);
+            setPhoto(undefined);
+        }
+    }
+
+    const openMediaLibrary = async () => {
+        const assets = await MediaLibrary.getAssetsAsync();
+        console.log(assets);
+    }
+
 
     const toggleTorch = () => {
         setFlashMode(current => (current === FlashMode.auto ? FlashMode.torch : FlashMode.auto));
@@ -89,6 +104,7 @@ export default function CameraScreen() {
                 />
                 : <SafeAreaView style={styles.imageView}>
                     <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+                    <Button title='Save' onPress={savePhoto} />
                 </SafeAreaView>
             }
             <View style={styles.buttonContainer}>
@@ -131,7 +147,7 @@ export default function CameraScreen() {
                         mode='outlined'
                         iconColor='#000'
                         containerColor='#039be5'
-                        onPress={() => { }}
+                        onPress={openMediaLibrary}
                         style={styles.button}
                     />
                 }

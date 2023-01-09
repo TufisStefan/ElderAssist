@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     emergencyText: {
-        fontSize: 24,
+        fontSize: 28,
         color: "#fff",
         fontWeight: 'bold'
     },
