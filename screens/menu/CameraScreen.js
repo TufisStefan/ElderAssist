@@ -4,7 +4,6 @@ import { Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-nativ
 import { IconButton } from 'react-native-paper';
 import CustomSwitch from '../../components/CustomSwitch';
 import * as MediaLibrary from 'expo-media-library';
-import * as ImagePicker from 'expo-image-picker';
 
 export default function CameraScreen() {
     let cameraRef = useRef();
@@ -75,6 +74,11 @@ export default function CameraScreen() {
         }
     }
 
+    const openMediaLibrary = async () => {
+        const assets = await MediaLibrary.getAssetsAsync();
+        console.log(assets);
+    }
+
 
     const toggleTorch = () => {
         setFlashMode(current => (current === FlashMode.auto ? FlashMode.torch : FlashMode.auto));
@@ -143,7 +147,7 @@ export default function CameraScreen() {
                         mode='outlined'
                         iconColor='#000'
                         containerColor='#039be5'
-                        onPress={() => { }}
+                        onPress={openMediaLibrary}
                         style={styles.button}
                     />
                 }
