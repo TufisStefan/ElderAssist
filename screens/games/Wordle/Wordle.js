@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
-import { Button, Text } from "react-native-paper";
+import { Alert, SafeAreaView, StyleSheet, TouchableOpacity, View } from "react-native"
+import { IconButton, Text } from "react-native-paper";
+import HelpModalWordle from "../../../components/HelpModalWordle";
 import { DEFAULT_GUESS } from "../../../constants";
 import GuessRow from "./GuessRow";
 import Keyboard from "./Keyboard";
@@ -11,32 +12,32 @@ const WordleGame = () => {
     const [guessIndex, setGuessIndex] = useState(0);
     const [guesses, setGuesses] = useState(DEFAULT_GUESS);
     const [gameComplete, setGameComplete] = useState(false);
-
+    const [isHelpDisplayed, setIsHelpDisplayed] = useState(false);
     const handleKeyPress = (letter) => {
         const guess = guesses[guessIndex];
 
         if (letter === "ENTER") {
             if (guess.length !== 5) {
-                alert("Word too short.")
+                Alert.alert("Invalid!", "Word too short.");
                 return
             }
 
             if (!WORDS.includes(guess)) {
-                alert("Not a valid word.")
+                Alert.alert("Invalid!", "Not a valid word.");
                 return
             }
 
             if (guess === activeWord) {
                 setGuessIndex(guessIndex + 1)
                 setGameComplete(true);
-                alert("You won!");
+                Alert.alert("Victory!", "Congratulations! You won!");
                 return
             }
             if (guessIndex < 5) {
                 setGuessIndex(guessIndex + 1);
             } else {
                 setGameComplete(true);
-                alert("You lost! The word was " + activeWord);
+                Alert.alert("You lost!", "The word was " + activeWord);
                 return
             }
         }
@@ -53,6 +54,13 @@ const WordleGame = () => {
         setGuesses({ ...guesses, [guessIndex]: guess + letter });
     }
 
+    const displayHelp = () => {
+        setIsHelpDisplayed(true);
+    }
+    const hideHelp = () => {
+        setIsHelpDisplayed(false);
+    }
+
 
     useEffect(() => {
         if (!gameComplete) {
@@ -64,7 +72,16 @@ const WordleGame = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <HelpModalWordle visible={isHelpDisplayed} hideModal={hideHelp} />
             <View style={styles.guessContainer}>
+                <IconButton
+                    icon="help"
+                    mode='outlined'
+                    style={{ alignSelf: 'center' }}
+                    size={40}
+                    iconColor='#000'
+                    onPress={() => displayHelp()}
+                />
                 <GuessRow
                     guess={guesses[0]}
                     word={activeWord}
@@ -117,7 +134,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     guessContainer: {
-        marginTop: 10,
     },
     gameCompleteWrapper: {
         alignItems: "center",
