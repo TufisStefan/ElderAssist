@@ -4,6 +4,8 @@ import { Stopwatch } from 'react-native-stopwatch-timer';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MEMORY_CARDS } from "../../../constants";
 import { LogBox } from 'react-native';
+import { IconButton } from "react-native-paper";
+import HelpModalMemory from "../../../components/HelpModalMemory";
 
 
 
@@ -15,6 +17,7 @@ const MemoryGame = () => {
     const [selectedPairs, setSelectedPairs] = useState([]);
     const [gameCards, setGameCards] = useState([]);
     const [gameOver, setGameOver] = useState(false);
+    const [isHelpDisplayed, setIsHelpDisplayed] = useState(false);
 
 
     LogBox.ignoreLogs(["Warning: componentWillReceiveProps"]);
@@ -41,6 +44,12 @@ const MemoryGame = () => {
         return array;
     }
 
+    const displayHelp = () => {
+        setIsHelpDisplayed(true);
+    }
+    const hideHelp = () => {
+        setIsHelpDisplayed(false);
+    }
 
     const initializeGame = () => {
         const indexes = generateRandomIndexes(6, 12);
@@ -151,19 +160,32 @@ const MemoryGame = () => {
 
     return (
         <View style={styles.container} pointerEvents={screenDisabled ? 'none' : 'auto'}>
-            <Stopwatch
-                laps
-                start={isStopwatchStart}
-                reset={resetStopwatch}
-                options={options}
-                getTime={(time) => {
-                    if (gameOver === true) {
-                        Alert.alert("Victory", `Congrats, you finished the game in ${time}`);
-                        setIsStopwatchStart(false);
-                        setGameOver(false);
-                    }
-                }}
-            />
+            <HelpModalMemory visible={isHelpDisplayed} hideModal={hideHelp} />
+            <View style={{
+                flexDirection: "row", width: "100%"
+            }}>
+                <IconButton
+                    icon="help"
+                    mode='outlined'
+                    size={40}
+                    style={{ marginEnd: 30 }}
+                    iconColor='#000'
+                    onPress={() => displayHelp()}
+                />
+                <Stopwatch
+                    laps
+                    start={isStopwatchStart}
+                    reset={resetStopwatch}
+                    options={options}
+                    getTime={(time) => {
+                        if (gameOver === true) {
+                            Alert.alert("Victory", `Congrats, you finished the game in ${time}`);
+                            setIsStopwatchStart(false);
+                            setGameOver(false);
+                        }
+                    }}
+                />
+            </View>
             {renderRows()}
             <TouchableOpacity style={styles.button} onPress={restartGame} activeOpacity={0.5}>
                 <Text style={styles.text}>Restart</Text>

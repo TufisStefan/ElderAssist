@@ -20,11 +20,11 @@ const ContactListItem = ({ onPressContact, contact }) => {
                         {contact.name}
                     </Text>
                 </View>
-                <IconButton
+                {/* <IconButton
                     icon='star'
                     size={50}
                 //onPress={toggleStarred}
-                />
+                /> */}
             </View >
         </TouchableOpacity>
     );

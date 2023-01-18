@@ -3,6 +3,12 @@
     "slug": "licentav1",
     "name": "ElderAssist",
     "sdkVersion": "47.0.0",
+    "icon" : "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    },
     "extra": {
       "eas": {
         "projectId": "93080aec-bfa2-4e00-bc8f-de0137a9c15f"
@@ -25,6 +31,5 @@
     "plugins": [
 
     ]
-  },
-  "name": "ElderAssist"
+  }
 }
