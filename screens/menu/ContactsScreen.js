@@ -1,14 +1,16 @@
 import * as Contacts from 'expo-contacts';
-import { useEffect, useState } from 'react';
-import { FlatList, View } from "react-native";
+import { useContext, useEffect, useState } from 'react';
+import { FlatList, Vibration, View } from "react-native";
 import ContactListItem from "../../components/ContactListItem";
 import { CONTACTS_PER_PAGE } from '../../constants';
 import { IconButton, TextInput } from 'react-native-paper';
+import { VibrationContext } from '../../context/VibrationContext';
 
 const ContactsScreen = ({ navigation }) => {
     const [contacts, setContacts] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [searchQuery, setSearchQuery] = useState('');
+    const { isVibrationOn } = useContext(VibrationContext);
 
     useEffect(() => {
         (async () => {
@@ -49,7 +51,15 @@ const ContactsScreen = ({ navigation }) => {
     }
 
     const renderItem = ({ item, index }) => {
-        return <ContactListItem onPressContact={() => onPressContact(item.id)} contact={item} />;
+        return <ContactListItem
+            onPressContact={() => {
+                if (isVibrationOn === true) {
+                    Vibration.vibrate(200);
+                }
+                onPressContact(item.id);
+            }}
+            contact={item}
+        />;
 
     };
 
@@ -87,14 +97,24 @@ const ContactsScreen = ({ navigation }) => {
                     iconColor='#f58216'
                     size={110}
                     disabled={currentPage === 0}
-                    onPress={() => handlePreviousPage()}
+                    onPress={() => {
+                        if (isVibrationOn === true) {
+                            Vibration.vibrate(200);
+                        }
+                        handlePreviousPage();
+                    }}
                 />
                 <IconButton
                     icon="arrow-right-bold-box"
                     size={110}
                     iconColor='#f58216'
                     disabled={currentPage === Math.floor(contacts.length / CONTACTS_PER_PAGE)}
-                    onPress={() => handleNextPage()}
+                    onPress={() => {
+                        if (isVibrationOn === true) {
+                            Vibration.vibrate(200);
+                        }
+                        handleNextPage();
+                    }}
                 />
             </View>
         </View>

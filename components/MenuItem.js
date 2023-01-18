@@ -1,10 +1,11 @@
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, Vibration } from 'react-native';
 import { Text } from 'react-native-paper';
-import * as Haptics from 'expo-haptics';
-
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useContext } from 'react';
+import { VibrationContext } from '../context/VibrationContext';
 
 const MenuItem = (props) => {
+    const { isVibrationOn } = useContext(VibrationContext);
     return (
         <TouchableOpacity
             style={{
@@ -16,9 +17,11 @@ const MenuItem = (props) => {
                 marginHorizontal: 20,
                 marginVertical: 10
             }}
-            onPress={() => {
+            onPress={async () => {
                 props.navigation.navigate(props.navigateTo);
-                Haptics.selectionAsync();
+                if (isVibrationOn === true) {
+                    Vibration.vibrate(200);
+                }
             }}
         >
             <MaterialCommunityIcons name={props.iconName} size={50} style={{

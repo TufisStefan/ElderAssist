@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import MemoryGameCard from "../../../components/MemoryGameCard";
 import { Stopwatch } from 'react-native-stopwatch-timer';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, StyleSheet, Text, TouchableOpacity, Vibration, View } from "react-native";
 import { MEMORY_CARDS } from "../../../constants";
 import { LogBox } from 'react-native';
 import { IconButton } from "react-native-paper";
 import HelpModalMemory from "../../../components/HelpModalMemory";
+import { VibrationContext } from "../../../context/VibrationContext";
 
 
 
@@ -18,6 +19,7 @@ const MemoryGame = () => {
     const [gameCards, setGameCards] = useState([]);
     const [gameOver, setGameOver] = useState(false);
     const [isHelpDisplayed, setIsHelpDisplayed] = useState(false);
+    const { isVibrationOn } = useContext(VibrationContext);
 
 
     LogBox.ignoreLogs(["Warning: componentWillReceiveProps"]);
@@ -80,7 +82,12 @@ const MemoryGame = () => {
                 key={index}
                 isFlipped={card.isFlipped}
                 cardImage={card.image}
-                onClickCard={() => onClickCard(card.id)}
+                onClickCard={() => {
+                    if (isVibrationOn === true) {
+                        Vibration.vibrate(200);
+                    }
+                    onClickCard(card.id);
+                }}
             />
         })
     }
@@ -132,7 +139,7 @@ const MemoryGame = () => {
             else {
                 setTimeout(() => {
                     updateState([currentSelection[0].index, currentSelection[1].index], false);
-                }, 1000);
+                }, 3000);
             }
             setCurrentSelection([]);
         }
@@ -187,7 +194,14 @@ const MemoryGame = () => {
                 />
             </View>
             {renderRows()}
-            <TouchableOpacity style={styles.button} onPress={restartGame} activeOpacity={0.5}>
+            <TouchableOpacity style={styles.button} onPress={() => {
+                if (isVibrationOn === true) {
+                    Vibration.vibrate(200);
+                }
+                restartGame();
+            }}
+                activeOpacity={0.5}
+            >
                 <Text style={styles.text}>Restart</Text>
             </TouchableOpacity>
         </View>

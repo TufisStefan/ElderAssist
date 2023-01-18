@@ -1,11 +1,14 @@
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { SETTINGS } from "../../constants";
-import { Text } from "react-native-paper";
+import { Switch, Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
+import { useContext } from "react";
+import { VibrationContext } from "../../context/VibrationContext";
 
 
 const SettingsScreen = ({ navigation }) => {
 
+    const { isVibrationOn, onToggleVibration } = useContext(VibrationContext);
     const renderItem = ({ item, index }) => {
         return (
             <TouchableOpacity style={styles.settingsContainer} onPress={() => { navigation.navigate(item.route) }}>
@@ -25,6 +28,13 @@ const SettingsScreen = ({ navigation }) => {
                 keyExtractor={keyExtractor}
                 showsVerticalScrollIndicator={false}
             />
+            <TouchableOpacity style={styles.settingsContainer}>
+                <Text style={styles.settingsText}>Vibration Feedback</Text>
+                <Switch
+                    value={isVibrationOn}
+                    onChange={onToggleVibration}
+                />
+            </TouchableOpacity>
         </View>
     );
 }
@@ -37,6 +47,9 @@ const styles = StyleSheet.create({
         padding: 20,
         marginTop: 10,
         marginHorizontal: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         backgroundColor: "#ccc",
         borderRadius: 10
     },

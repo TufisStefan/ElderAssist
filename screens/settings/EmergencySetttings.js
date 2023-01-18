@@ -54,7 +54,6 @@ const EmergencySettings = () => {
                         <Switch
                             value={isLocationOn}
                             onValueChange={onToggleLocation}
-                            style={{ marginLeft: 60 }}
                         />
                     }
                 </TouchableOpacity>
@@ -100,6 +99,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#ccc",
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20
     },

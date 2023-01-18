@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Vibration } from 'react-native';
+import { VibrationContext } from '../context/VibrationContext';
 
 const CustomSwitch = ({
     selectionMode,
@@ -9,6 +10,7 @@ const CustomSwitch = ({
     selectionColor,
     updateToggledMode
 }) => {
+    const { isVibrationOn } = useContext(VibrationContext);
 
     return (
         <View style={{ marginTop: 10, alignSelf: 'center' }}>
@@ -26,7 +28,12 @@ const CustomSwitch = ({
                 }}>
                 <TouchableOpacity
                     activeOpacity={1}
-                    onPress={() => updateToggledMode(1)}
+                    onPress={() => {
+                        if (isVibrationOn === true) {
+                            Vibration.vibrate(200);
+                        }
+                        updateToggledMode(1);
+                    }}
                     style={{
                         flex: 1,
 
@@ -45,7 +52,12 @@ const CustomSwitch = ({
                 <TouchableOpacity
                     TouchableOpacity
                     activeOpacity={1}
-                    onPress={() => updateToggledMode(2)}
+                    onPress={() => {
+                        if (isVibrationOn === true) {
+                            Vibration.vibrate(200);
+                        }
+                        updateToggledMode(2);
+                    }}
                     style={{
                         flex: 1,
 

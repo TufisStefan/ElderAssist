@@ -1,11 +1,12 @@
 
-import { TouchableOpacity, Text, View } from "react-native";
+import { TouchableOpacity, Text, View, Vibration } from "react-native";
 import { StyleSheet } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import CustomButton from "../../components/CustomButton";
 import { IconButton, TextInput } from "react-native-paper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { VibrationContext } from "../../context/VibrationContext";
 
 
 const AccountScreen = ({ navigation }) => {
@@ -16,6 +17,8 @@ const AccountScreen = ({ navigation }) => {
     const [info, setInfo] = useState("");
     const [isEditable, setIsEditable] = useState(false);
 
+    const { isVibrationOn } = useContext(VibrationContext);
+
 
     const handleEditPress = () => {
         if (isEditable) {
@@ -23,7 +26,6 @@ const AccountScreen = ({ navigation }) => {
             AsyncStorage.setItem("@elder_phone", phoneNumber);
             AsyncStorage.setItem("@elder_address", address);
             AsyncStorage.setItem("@elder_info", info);
-            console.log("Saved");
         }
         toggleEditable();
     }
@@ -57,13 +59,18 @@ const AccountScreen = ({ navigation }) => {
                     setInfo(value);
                 }
             })
-    });
+    }, []);
 
     return (
         <View style={styles.container}>
             <TouchableOpacity
                 style={styles.editButton}
-                onPress={handleEditPress}
+                onPress={() => {
+                    if (isVibrationOn === true) {
+                        Vibration.vibrate(200);
+                    }
+                    handleEditPress();
+                }}
             >
                 {!isEditable &&
                     <View style={styles.editView}>

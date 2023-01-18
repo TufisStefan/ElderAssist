@@ -1,10 +1,11 @@
 import { Camera, CameraType, FlashMode } from 'expo-camera';
-import { useEffect, useRef, useState } from 'react';
-import { Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { Button, Image, SafeAreaView, StyleSheet, Text, Vibration, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import CustomSwitch from '../../components/CustomSwitch';
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
+import { VibrationContext } from '../../context/VibrationContext';
 
 
 export default function CameraScreen() {
@@ -15,6 +16,8 @@ export default function CameraScreen() {
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [zoomValue, setZoomValue] = useState(0.0);
     const [selectedMode, setSelectedMode] = useState(1);
+
+    const { isVibrationOn } = useContext(VibrationContext);
 
 
     if (!permission) {
@@ -77,16 +80,6 @@ export default function CameraScreen() {
     }
 
     const openMediaLibrary = async () => {
-        // switch (Platform.OS) {
-        //     case "ios":
-        //         Linking.openURL("photos-redirect://");
-        //         break;
-        //     case "android":
-        //         Linking.openURL("content://media/internal/images/media");
-        //         break;
-        //     default:
-        //         console.log("Could not open gallery app");
-        // }
         ImagePicker.launchImageLibraryAsync({
             aspect: [4, 3],
             quality: 1,
@@ -129,7 +122,12 @@ export default function CameraScreen() {
                         mode='outlined'
                         iconColor='#000'
                         containerColor='#039be5'
-                        onPress={toggleCameraType}
+                        onPress={() => {
+                            if (isVibrationOn === true) {
+                                Vibration.vibrate(200);
+                            }
+                            toggleCameraType();
+                        }}
                         style={styles.button}
                     />
                 }
@@ -140,7 +138,12 @@ export default function CameraScreen() {
                         mode='outlined'
                         iconColor='#000'
                         containerColor='#039be5'
-                        onPress={toggleZoom}
+                        onPress={() => {
+                            if (isVibrationOn === true) {
+                                Vibration.vibrate(200);
+                            }
+                            toggleZoom();
+                        }}
                         style={styles.button}
                     />
                 }
@@ -150,7 +153,12 @@ export default function CameraScreen() {
                     mode='outlined'
                     iconColor='#000'
                     containerColor='#039be5'
-                    onPress={handlePressTakePhoto}
+                    onPress={() => {
+                        if (isVibrationOn === true) {
+                            Vibration.vibrate(200);
+                        }
+                        handlePressTakePhoto();
+                    }}
                     style={styles.button}
                 />
 
@@ -161,7 +169,12 @@ export default function CameraScreen() {
                         mode='outlined'
                         iconColor='#000'
                         containerColor='#039be5'
-                        onPress={openMediaLibrary}
+                        onPress={() => {
+                            if (isVibrationOn === true) {
+                                Vibration.vibrate(200);
+                            }
+                            openMediaLibrary();
+                        }}
                         style={styles.button}
                     />
                 }
@@ -173,7 +186,12 @@ export default function CameraScreen() {
                         mode='outlined'
                         iconColor='#000'
                         containerColor='#039be5'
-                        onPress={toggleTorch}
+                        onPress={() => {
+                            if (isVibrationOn === true) {
+                                Vibration.vibrate(200);
+                            }
+                            toggleTorch();
+                        }}
                         style={styles.button}
                     />
                 }

@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 import { LocationProvider } from './context/LocationContext';
 import AppNav from './navigation/AppNav';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import { VibrationProvider } from './context/VibrationContext';
 
 export default function App() {
   const [theme, setTheme] = React.useState(DefaultTheme);
@@ -18,9 +19,11 @@ export default function App() {
   return (
     <AuthProvider>
       <LocationProvider>
-        <PaperProvider theme={theme}>
-          <AppNav />
-        </PaperProvider>
+        <VibrationProvider>
+          <PaperProvider theme={theme}>
+            <AppNav />
+          </PaperProvider>
+        </VibrationProvider>
       </LocationProvider>
     </AuthProvider>
   );
