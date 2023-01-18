@@ -1,5 +1,7 @@
 import { TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
+import * as Haptics from 'expo-haptics';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const MenuItem = (props) => {
@@ -14,7 +16,11 @@ const MenuItem = (props) => {
                 marginHorizontal: 20,
                 marginVertical: 10
             }}
-            onPress={() => props.navigation.navigate(props.navigateTo)}>
+            onPress={() => {
+                props.navigation.navigate(props.navigateTo);
+                Haptics.selectionAsync();
+            }}
+        >
             <MaterialCommunityIcons name={props.iconName} size={50} style={{
                 color: props.textFont
             }} />

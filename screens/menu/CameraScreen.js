@@ -4,6 +4,8 @@ import { Button, Image, SafeAreaView, StyleSheet, Text, View } from 'react-nativ
 import { IconButton } from 'react-native-paper';
 import CustomSwitch from '../../components/CustomSwitch';
 import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
+
 
 export default function CameraScreen() {
     let cameraRef = useRef();
@@ -75,8 +77,20 @@ export default function CameraScreen() {
     }
 
     const openMediaLibrary = async () => {
-        const assets = await MediaLibrary.getAssetsAsync();
-        console.log(assets);
+        // switch (Platform.OS) {
+        //     case "ios":
+        //         Linking.openURL("photos-redirect://");
+        //         break;
+        //     case "android":
+        //         Linking.openURL("content://media/internal/images/media");
+        //         break;
+        //     default:
+        //         console.log("Could not open gallery app");
+        // }
+        ImagePicker.launchImageLibraryAsync({
+            aspect: [4, 3],
+            quality: 1,
+        });
     }
 
 

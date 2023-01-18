@@ -1,14 +1,7 @@
-import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Block from "./Block";
 
 const GuessRow = ({ guess, word, guessed }) => {
-
-    // useEffect(() => {
-    //     console.log(guess);
-    //     console.log(word);
-    //     console.log(guessed);
-    // })
 
     return (
         <View style={styles.guessRow}>
