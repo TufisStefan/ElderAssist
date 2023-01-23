@@ -113,6 +113,7 @@ const AccountScreen = ({ navigation }) => {
                 style={{ fontSize: 24, marginBottom: 10 }}
                 disabled={!isEditable}
                 label="Address"
+                multiline={true}
                 left={<TextInput.Icon icon="home" size={35} />}
             />
             <TextInput

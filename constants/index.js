@@ -14,7 +14,6 @@ export const DOUBLE_TAP_DELAY = 3000;
 //SettingsScreen.js
 export const SETTINGS = [
     { title: "Emergency Settings", route: "Emergency" },
-    { title: "Placeholder1", route: "Emergency" },
 ];
 
 //EmergencySettings.js

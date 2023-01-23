@@ -62,6 +62,7 @@ const PrescriptionScreen = () => {
         if (networkStatus.isInternetReachable) {
             await AsyncStorage.getItem("@username").then(
                 (username) => PrescriptionService.getPrescription(username).then(response => {
+                    console.log(response.data);
                     savePrescriptionItems(response);
                 }),
                 error => {
@@ -95,20 +96,26 @@ const PrescriptionScreen = () => {
     }
 
     const saveTimesOfDay = async (tx, item, resultSet) => {
+        console.log(resultSet)
         await asyncForEach(item.timesOfDay, async (time) => {
-            console.log(time, resultSet);
             switch (time.name) {
                 case "MORNING":
                     tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
             values (?, ?)", [resultSet.insertId, 1], (_, resultSet) => console.log(resultSet));
+                    tx.executeSql('SELECT * FROM items_times_of_day', null,
+                        (_, { rows: { _array } }) => console.log(_array));
                     break;
                 case "NOON":
                     tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
             values (?, ?)", [resultSet.insertId, 2], (_, resultSet) => console.log(resultSet));
+                    tx.executeSql('SELECT * FROM items_times_of_day', null,
+                        (_, { rows: { _array } }) => console.log(_array));
                     break;
                 case "EVENING":
                     tx.executeSql("INSERT INTO items_times_of_day (item_id, time_of_day_id) \
             values (?, ?)", [resultSet.insertId, 3], (_, resultSet) => console.log(resultSet));
+                    tx.executeSql('SELECT * FROM items_times_of_day', null,
+                        (_, { rows: { _array } }) => console.log(_array));
                     break;
             }
         })
@@ -191,7 +198,7 @@ const PrescriptionScreen = () => {
             </View>
             {
                 data && data
-                    //.filter(item => new Date(item.available_until) > new Date())
+                    .filter(item => new Date(item.available_until) > new Date())
                     .sort((a, b) => a.time_of_day_id - b.time_of_day_id)
                     .map((item, index) => {
                         return (

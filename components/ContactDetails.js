@@ -42,7 +42,7 @@ const ContactDetails = ({ route, navigation }) => {
             {isLoaded &&
                 <View style={styles.detailView}>
                     <Text style={styles.detailText}>{contact.name}</Text>
-                    <Text style={styles.detailText}>{contact.phoneNumbers[0].number}</Text>
+                    <Text style={styles.detailText}>{contact.phoneNumbers !== undefined ? contact.phoneNumbers[0].number : "No Phone Number"}</Text>
                 </View>
             }
             <IconButton

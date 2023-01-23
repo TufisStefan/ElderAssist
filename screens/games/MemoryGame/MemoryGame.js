@@ -9,7 +9,6 @@ import HelpModalMemory from "../../../components/HelpModalMemory";
 import { VibrationContext } from "../../../context/VibrationContext";
 
 
-
 const MemoryGame = () => {
 
     const [isStopwatchStart, setIsStopwatchStart] = useState(true);
@@ -23,7 +22,6 @@ const MemoryGame = () => {
 
 
     LogBox.ignoreLogs(["Warning: componentWillReceiveProps"]);
-    let screenDisabled = false;
     const generateRandomIndexes = (quantity, max) => {
         const set = new Set();
         while (set.size < quantity) {
@@ -96,7 +94,6 @@ const MemoryGame = () => {
         let index = gameCards.findIndex((card) => { return card.id === id });
         if (gameCards[index].isFlipped === false && selectedPairs.indexOf(gameCards[index].name) === -1) {
             updateState([index], true);
-
             setCurrentSelection(current => [...current, { index: index, name: gameCards[index].name }]);
         }
     }
@@ -132,7 +129,6 @@ const MemoryGame = () => {
             initializeGame();
         }
         if (currentSelection.length === 2) {
-            screenDisabled = true;
             if (currentSelection[0].name === currentSelection[1].name) {
                 setSelectedPairs(current => [...current, currentSelection[0].name]);
             }
@@ -166,7 +162,7 @@ const MemoryGame = () => {
     }
 
     return (
-        <View style={styles.container} pointerEvents={screenDisabled ? 'none' : 'auto'}>
+        <View style={styles.container}>
             <HelpModalMemory visible={isHelpDisplayed} hideModal={hideHelp} />
             <View style={{
                 flexDirection: "row", width: "100%"
@@ -188,7 +184,6 @@ const MemoryGame = () => {
                         if (gameOver === true) {
                             Alert.alert("Victory", `Congrats, you finished the game in ${time}`);
                             setIsStopwatchStart(false);
-                            setGameOver(false);
                         }
                     }}
                 />

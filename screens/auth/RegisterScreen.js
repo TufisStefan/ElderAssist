@@ -10,6 +10,7 @@ import {
 import AuthService from '../../services/auth.service';
 import CustomButton from '../../components/CustomButton';
 import { TextInput } from 'react-native-paper';
+import InfoModal from '../../components/InfoModal';
 
 const RegisterScreen = ({ navigation }) => {
 
@@ -17,16 +18,27 @@ const RegisterScreen = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [isModalDisplayed, setIsModalDisplayed] = useState(false);
 
+
+    const displayModal = () => {
+        setIsModalDisplayed(true);
+    }
+    const hideModal = () => {
+        setIsModalDisplayed(false);
+        navigation.goBack();
+    }
 
     const handleRegister = () => {
 
         setMessage("");
         AuthService.register(username, email, password).then((response) => {
             setMessage(response.data.message);
+            displayModal();
         },
             (error) => {
                 const resMessage = error.message || error.toString();
+                console.log(resMessage);
                 setMessage(resMessage);
             });
 
@@ -82,7 +94,11 @@ const RegisterScreen = ({ navigation }) => {
                 />
 
                 <CustomButton label={'Register'} onPress={() => { handleRegister() }} />
-
+                <InfoModal
+                    visible={isModalDisplayed}
+                    hideModal={hideModal}
+                    text={"Register successful! You can now login."}
+                />
                 <View
                     style={{
                         flexDirection: 'row',

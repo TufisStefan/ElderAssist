@@ -1,4 +1,4 @@
-import { FlatList, TouchableOpacity, View } from "react-native";
+import { FlatList, Linking, TouchableOpacity, View } from "react-native";
 import { SETTINGS } from "../../constants";
 import { Switch, Text } from "react-native-paper";
 import { StyleSheet } from "react-native";
